@@ -3,7 +3,7 @@ name: Build and Package Next.js
 on:
   push:
     branches:
-      - main  # 或者其他你需要触发构建的分支
+      - main
   workflow_dispatch:
 
 jobs:
@@ -33,9 +33,9 @@ jobs:
       run: |
         cd ChatGPT-Next-Web
         mkdir -p artifact/web/
-        mkdir -p artifact/web/_next/static/
+        mkdir -p artifact/web/_next/
         cp -r public/* artifact/web/
-        cp -r .next/static/* artifact/web/_next/static/
+        cp -r .next/static artifact/web/_next/
 
     - name: Upload project directories
       uses: actions/upload-artifact@v4
