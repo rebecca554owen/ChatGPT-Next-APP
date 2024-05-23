@@ -2,9 +2,6 @@ name: Flutter Build
 
 on:
   workflow_dispatch:
-    inputs:
-      version:
-        description: 'Enter the version tag for the Docker image:'
   push:
     branches:
       - main
@@ -27,10 +24,9 @@ jobs:
     - name: Run Flutter build
       run: |
         flutter build apk --release
-        ls build
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
         name: release-apk
-        path: build/nextchat.apk
+        path: build/app/outputs/flutter-apk/app-release.apk
