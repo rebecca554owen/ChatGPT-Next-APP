@@ -32,10 +32,10 @@ jobs:
     - name: Organize project directories for artifact
       run: |
         cd ChatGPT-Next-Web
-        mkdir -p artifact/
-        mkdir -p artifact/_next
-        cp -r public/* artifact/
-        cp -r .next/static/* artifact/_next/
+        mkdir -p artifact/web/
+        mkdir -p artifact/web/_next
+        cp -r public/* artifact/web/
+        cp -r .next/static/* artifact/web/_next/
 
     - name: Upload project directories
       uses: actions/upload-artifact@v4
