@@ -15,7 +15,7 @@ jobs:
       run: git clone https://github.com/ChatGPTNextWeb/ChatGPT-Next-Web
 
     - name: Set up Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: '18'
 
@@ -33,9 +33,9 @@ jobs:
       run: |
         cd ChatGPT-Next-Web
         mkdir -p artifact/
-        mkdir -p artifact/_next/static
+        mkdir -p artifact/_next
         cp -r public/* artifact/
-        cp -r .next/static/* artifact/_next/static/
+        cp -r .next/static/* artifact/_next/
 
     - name: Upload project directories
       uses: actions/upload-artifact@v4
