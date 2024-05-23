@@ -37,5 +37,5 @@ jobs:
     - name: Upload project directories
       uses: actions/upload-artifact@v4
       with:
-        name: packaged-files
+        name: web
         path: ChatGPT-Next-Web/web.zip
