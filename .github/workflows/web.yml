@@ -33,12 +33,10 @@ jobs:
       run: |
         cd ChatGPT-Next-Web
         mkdir -p artifact/public
-        mkdir -p artifact/.next/static
-        mkdir -p artifact/.next/server
+        mkdir -p artifact/_next/static
+        mkdir -p artifact/_next/server
         cp -r public/* artifact/public/
-        cp -r .next/standalone/* artifact/
-        cp -r .next/static/* artifact/.next/static/
-        cp -r .next/server/* artifact/.next/server/
+        cp -r .next/static/* artifact/_next/static/
 
     - name: Upload project directories
       uses: actions/upload-artifact@v4
