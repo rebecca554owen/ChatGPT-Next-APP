@@ -1,0 +1,41 @@
+name: Build and Package Next.js
+
+on:
+  push:
+    branches:
+      - main  # 或者其他你需要触发构建的分支
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Clone specific repository
+      run: git clone https://github.com/ChatGPTNextWeb/ChatGPT-Next-Web
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      run: |
+        cd ChatGPT-Next-Web
+        yarn install --frozen-lockfile
+
+    - name: Build the project
+      run: |
+        cd ChatGPT-Next-Web
+        yarn build
+
+    - name: Compress project directories
+      run: |
+        cd ChatGPT-Next-Web
+        zip -r web.zip public .next
+
+    - name: Upload project directories
+      uses: actions/upload-artifact@v4
+      with:
+        name: packaged-files
+        path: ChatGPT-Next-Web/web.zip
