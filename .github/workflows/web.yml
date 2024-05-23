@@ -35,7 +35,7 @@ jobs:
         mkdir -p artifact/web/
         mkdir -p artifact/web/_next
         cp -r public/* artifact/web/
-        cp -r .next/static/* artifact/web/_next/
+        cp -r .next/static/* artifact/web/_next/static/
 
     - name: Upload project directories
       uses: actions/upload-artifact@v4
