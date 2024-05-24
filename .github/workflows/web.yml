@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Clone specific repository
+    - name: Clone ChatGPTNextWeb repository
       run: git clone https://github.com/ChatGPTNextWeb/ChatGPT-Next-Web
 
     - name: Set up Node.js
@@ -24,7 +24,7 @@ jobs:
         cd ChatGPT-Next-Web
         yarn install --frozen-lockfile
 
-    - name: Build the project
+    - name: Build the ChatGPTNextWeb
       run: |
         cd ChatGPT-Next-Web
         yarn build
