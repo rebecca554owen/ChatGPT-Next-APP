@@ -33,7 +33,10 @@ jobs:
         mkdir -p ChatGPT-Next-Web/web/_next/
         cp -r ChatGPT-Next-Web/public/* ChatGPT-Next-Web/web/
         cp -r ChatGPT-Next-Web/.next/static ChatGPT-Next-Web/web/_next/
-        zip -ur assets/web.zip ChatGPT-Next-Web/web/*
+        cd ChatGPT-Next-Web/web/
+        rm -rf ../assets/*
+        zip -r ../assets/web.zip web
+        cd ..
         rm -rf ChatGPT-Next-Web
 
     - name: Set up Flutter
