@@ -9,35 +9,39 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    outputs:
-      web-zip-path: ${{ steps.web_zip_path.outputs.path }}
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    - name: Clone ChatGPTNextWeb repository
+      run: git clone https://github.com/ChatGPTNextWeb/ChatGPT-Next-Web
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
 
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
+    - name: Install dependencies
+      run: |
+        cd ChatGPT-Next-Web
+        yarn install --frozen-lockfile
 
-      - name: Build the ChatGPTNextWeb
-        run: yarn build
+    - name: Build the ChatGPTNextWeb
+      run: |
+        cd ChatGPT-Next-Web
+        yarn build
 
-      - name: Organize project directories for artifact
-        run: |
-          mkdir -p web/_next/
-          cp -r public/* web/
-          cp -r .next/static web/_next/
-          zip -r web.zip web/*
-        id: organize_files
+    - name: Organize project directories for artifact
+      run: |
+        cd ChatGPT-Next-Web
+        mkdir -p web/_next/
+        cp -r public/* web/
+        cp -r .next/static web/_next/
+        zip -r ../assets/web.zip web/*
 
-      - name: Save path to ZIP
-        id: web_zip_path
-        run: echo "::set-output name=path::$PWD/web.zip"
+    - name: Upload project directories
+      uses: actions/upload-artifact@v4
+      with:
+        name: web
+        path: assets/web.zip
 
   merge:
     runs-on: ubuntu-latest
@@ -45,6 +49,16 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Download web.zip
+        uses: actions/download-artifact@v4
+        with:
+          path: ./assets
+
+      - name: Prepare and zip artifacts
+        run: |
+          echo "Displaying the structure of downloaded files:"
+          ls -R ./assets
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
@@ -54,15 +68,9 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Prepare web.zip from Build job
-        run: cp ${{ needs.build.outputs.web-zip-path }} ./assets/web.zip
-
-      - name: Display structure of downloaded files
-        run: ls -R ./assets
-
       - name: Run Flutter build
-        run: flutter build apk --release
-
+        run: |
+          flutter build apk --release
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
