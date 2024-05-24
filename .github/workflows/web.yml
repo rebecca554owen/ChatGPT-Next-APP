@@ -21,7 +21,7 @@ jobs:
 
     - name: Install Node.js dependencies
       run: |
-        cd ChatGPTNextWeb
+        cd ChatGPT-Next-Web
         yarn install --frozen-lockfile
 
     - name: Build the ChatGPTNextWeb
