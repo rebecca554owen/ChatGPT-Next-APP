@@ -44,19 +44,18 @@ jobs:
 
   merge:
     runs-on: ubuntu-latest
-    needs:
-      - build
+    needs: build
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Download web.zip
         uses: actions/download-artifact@v4
         with:
-          path: /assets
-          
-      - name: Display structure of downloaded files
-        run: ls -R /assets
+          path: ./assets
 
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Display structure of downloaded files
+        run: ls -R ./assets/
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
