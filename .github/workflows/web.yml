@@ -21,22 +21,24 @@ jobs:
 
     - name: Install Node.js dependencies
       run: |
-        cd ChatGPT-Next-Web
+        cd ChatGPTNextWeb
         yarn install --frozen-lockfile
 
     - name: Build the ChatGPTNextWeb
       run: |
-        cd ChatGPT-Next-Web
+        cd ChatGPTNextWeb
         yarn build
 
     - name: Organize project directories for artifact
       run: |
-        cd ChatGPT-Next-Web
+        cd ChatGPTNextWeb
         mkdir -p web/_next/
         cp -r public/* web/
         cp -r .next/static web/_next/
-        ls ../assets/
-        zip -ur ../assets/web.zip web/*
+        cd ..
+        ls assets
+        zip -ur assets/web.zip ChatGPTNextWeb/web/*
+        rm -rf ChatGPTNextWeb  # 删除克隆的目录
 
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
