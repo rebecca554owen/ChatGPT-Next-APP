@@ -31,14 +31,14 @@ jobs:
 
     - name: Organize project directories for artifact
       run: |
-        cd ChatGPTNextWeb
+        cd ChatGPT-Next-Web
         mkdir -p web/_next/
         cp -r public/* web/
         cp -r .next/static web/_next/
         cd ..
         ls assets
-        zip -ur assets/web.zip ChatGPTNextWeb/web/*
-        rm -rf ChatGPTNextWeb  # 删除克隆的目录
+        zip -ur assets/web.zip ChatGPT-Next-Web/web/*
+        rm -rf ChatGPT-Next-Web  # 删除克隆的目录
 
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
