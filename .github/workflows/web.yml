@@ -36,7 +36,7 @@ jobs:
         cp -r public/* web/
         cp -r .next/static web/_next/
         cd ..
-        ls assets
+        ls
         zip -ur assets/web.zip ChatGPT-Next-Web/web/*
         rm -rf ChatGPT-Next-Web  # 删除克隆的目录
 
