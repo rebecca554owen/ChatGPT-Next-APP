@@ -23,10 +23,10 @@ jobs:
         node-version: '18'
 
     - name: Install Node.js and Build
+      working-directory: ChatGPT-Next-Web
       run: |
         yarn install --frozen-lockfile
         yarn build
-      working-directory: ChatGPT-Next-Web
 
     - name: Organize project directories for artifact
       run: |
