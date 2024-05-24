@@ -13,7 +13,7 @@ jobs:
     steps:
     - name: Checkout current repository
       uses: actions/checkout@v4
-      
+
     - name: Clone ChatGPTNextWeb repository
       run: git clone https://github.com/ChatGPTNextWeb/ChatGPT-Next-Web
 
@@ -22,26 +22,18 @@ jobs:
       with:
         node-version: '18'
 
-    - name: Install Node.js dependencies
+    - name: Install Node.js and Build
       run: |
-        cd ChatGPT-Next-Web
-        yarn install --frozen-lockfile
-
-    - name: Build the ChatGPTNextWeb
-      run: |
-        cd ChatGPT-Next-Web
-        yarn build
+        yarn install --frozen-lockfile --cwd ChatGPT-Next-Web
+        yarn build --cwd ChatGPT-Next-Web
 
     - name: Organize project directories for artifact
       run: |
-        ls
-        cd ChatGPT-Next-Web
-        mkdir -p web/_next/
-        cp -r public/* web/
-        cp -r .next/static web/_next/
-        cd ..
+        mkdir -p ChatGPT-Next-Web/web/_next/
+        cp -r ChatGPT-Next-Web/public/* ChatGPT-Next-Web/web/
+        cp -r ChatGPT-Next-Web/.next/static ChatGPT-Next-Web/web/_next/
         zip -ur assets/web.zip ChatGPT-Next-Web/web/*
-        rm -rf ChatGPT-Next-Web  # 删除克隆的目录
+        rm -rf ChatGPT-Next-Web
 
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
@@ -55,10 +47,14 @@ jobs:
       run: |
         flutter build apk --release
 
-    - name: Upload web.zip and APK
+    - name: Upload web.zip
       uses: actions/upload-artifact@v4
       with:
-        name: artifacts
-        path: |
-          assets/web.zip
-          build/app/outputs/flutter-apk/app-release.apk
+        name: web-zip
+        path: assets/web.zip
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: app-release-apk
+        path: build/app/outputs/flutter-apk/app-release.apk
