@@ -11,6 +11,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Checkout current repository
+      uses: actions/checkout@v4
+      
     - name: Clone ChatGPTNextWeb repository
       run: git clone https://github.com/ChatGPTNextWeb/ChatGPT-Next-Web
 
@@ -31,12 +34,12 @@ jobs:
 
     - name: Organize project directories for artifact
       run: |
+        ls
         cd ChatGPT-Next-Web
         mkdir -p web/_next/
         cp -r public/* web/
         cp -r .next/static web/_next/
         cd ..
-        ls
         zip -ur assets/web.zip ChatGPT-Next-Web/web/*
         rm -rf ChatGPT-Next-Web  # 删除克隆的目录
 
