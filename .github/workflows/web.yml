@@ -33,8 +33,8 @@ jobs:
         mkdir -p ChatGPT-Next-Web/web/_next/
         cp -r ChatGPT-Next-Web/public/* ChatGPT-Next-Web/web/
         cp -r ChatGPT-Next-Web/.next/static ChatGPT-Next-Web/web/_next/
-        cd ChatGPT-Next-Web/web/
-        rm -rf ../assets/*
+        rm -rf assets/*
+        cd ChatGPT-Next-Web
         zip -r ../assets/web.zip web
         cd ..
         rm -rf ChatGPT-Next-Web
