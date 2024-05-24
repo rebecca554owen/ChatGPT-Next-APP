@@ -24,8 +24,9 @@ jobs:
 
     - name: Install Node.js and Build
       run: |
-        yarn install --frozen-lockfile --cwd ChatGPT-Next-Web
-        yarn build --cwd ChatGPT-Next-Web
+        yarn install --frozen-lockfile
+        yarn build
+      working-directory: ChatGPT-Next-Web
 
     - name: Organize project directories for artifact
       run: |
