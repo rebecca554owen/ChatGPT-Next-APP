@@ -1,4 +1,4 @@
-name: Build and Package Next.js with Flutter APK
+name: Build and Package Next.js
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-package:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,15 +19,6 @@ jobs:
       with:
         node-version: '18'
 
-    - name: Cache Node modules
-      uses: actions/cache@v3
-      with:
-        path: |
-          ChatGPT-Next-Web/node_modules
-        key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-node-
-
     - name: Install dependencies
       run: |
         cd ChatGPT-Next-Web
@@ -38,31 +29,49 @@ jobs:
         cd ChatGPT-Next-Web
         yarn build
 
-    - name: Organize, zip, and clean up artifacts
+    - name: Organize project directories for artifact
       run: |
-        mkdir -p ChatGPT-Next-Web/artifact/web/_next/
-        cp -r ChatGPT-Next-Web/public/* ChatGPT-Next-Web/artifact/web/
-        cp -r ChatGPT-Next-Web/.next/static ChatGPT-Next-Web/artifact/web/_next/
-        zip -r ChatGPT-Next-Web/artifact/web.zip ChatGPT-Next-Web/artifact/web/*
-        mkdir -p assets
-        mv ChatGPT-Next-Web/artifact/web.zip assets/
-        rm -rf ChatGPT-Next-Web
+        cd ChatGPT-Next-Web
+        mkdir -p artifact/web/_next/
+        cp -r public/* artifact/web/
+        cp -r .next/static artifact/web/_next/
+        zip -r artifact/web.zip artifact/web/*
 
-    - name: Set up Flutter
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: '3.22.1'
-
-    - name: Install Flutter dependencies
-      run: flutter pub get
-
-    - name: Run Flutter build
-      run: flutter build apk --release
-
-    - name: Upload Artifacts
+    - name: Upload project directories
       uses: actions/upload-artifact@v4
       with:
-        name: release-files
-        path: |
-          assets/web.zip
-          build/app/outputs/flutter-apk/app-release.apk
+        name: web.zip
+        path: ChatGPT-Next-Web/artifact/web.zip
+
+  merge:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download web.zip
+        uses: actions/download-artifact@v4
+        with:
+          path: ./assets
+
+      - name: Display structure of downloaded files
+        run: ls -R ./assets
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.22.1'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run Flutter build
+        run: |
+          flutter build apk --release
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
