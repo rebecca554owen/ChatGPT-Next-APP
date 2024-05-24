@@ -32,16 +32,16 @@ jobs:
     - name: Organize project directories for artifact
       run: |
         cd ChatGPT-Next-Web
-        mkdir -p artifact/web/_next/
-        cp -r public/* artifact/web/
-        cp -r .next/static artifact/web/_next/
-        zip -r artifact/web.zip artifact/web/*
+        mkdir -p web/_next/
+        cp -r public/* web/
+        cp -r .next/static web/_next/
+        zip -r web.zip web/*
 
     - name: Upload project directories
       uses: actions/upload-artifact@v4
       with:
         name: web.zip
-        path: ChatGPT-Next-Web/artifact/web.zip
+        path: ChatGPT-Next-Web/web.zip
 
   merge:
     runs-on: ubuntu-latest
