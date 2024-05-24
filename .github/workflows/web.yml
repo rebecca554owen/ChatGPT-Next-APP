@@ -26,7 +26,7 @@ jobs:
 
     - name: Build the ChatGPTNextWeb
       run: |
-        cd ChatGPTNextWeb
+        cd ChatGPT-Next-Web
         yarn build
 
     - name: Organize project directories for artifact
