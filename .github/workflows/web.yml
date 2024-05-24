@@ -54,8 +54,15 @@ jobs:
         with:
           path: ./assets
 
-      - name: Display structure of downloaded files
-        run: ls -R ./assets/
+      - name: Prepare and zip artifacts
+        run: |
+          cd ./assets
+          echo "Displaying the structure of downloaded files:"
+          ls -R .
+          echo "Removing existing zip file, if any..."
+          rm -f web.zip
+          echo "Compressing files into web.zip..."
+          zip -r web.zip ./*
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
